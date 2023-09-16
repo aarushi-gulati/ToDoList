@@ -36,7 +36,7 @@ function displayProjects(){
         let newItem = document.createElement("div");
         let deleteButton = document.createElement("img");
         newItem.textContent = project;
-        deleteButton.src = "/home/aarushi/Coding/ToDoList/Icons/delete.svg";
+        deleteButton.src = "Icons/delete.svg";
         deleteButton.classList.add("del");
         deleteButton.id = project;
         newItem.appendChild(deleteButton);
@@ -64,7 +64,7 @@ function onSubmit(){
 
 function completeTask(e){
     if (e.target.className === "unchecked"){
-        e.target.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+        e.target.src = "Icons/checkbox-marked-circle.svg";
         e.target.className = "checked";
         for (const prozect in allProjects){
             let presentTasks = allProjects[prozect].tasks;
@@ -77,7 +77,7 @@ function completeTask(e){
     }
 
     else if (e.target.className === "checked"){
-        e.target.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+        e.target.src = "Icons/checkbox-blank-circle-outline.svg";
         e.target.className = "unchecked";
         for (const prozect in allProjects){
             let presentTasks = allProjects[prozect].tasks;
@@ -175,10 +175,10 @@ function displayMonthTasks(){
 
             let currPriority = document.createElement("img");
             if (currentPriority){
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+                currPriority.src = "Icons/star.svg";
             }
             else{
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+                currPriority.src = "Icons/star-outline.svg";
             }
             currPriority.classList.add("icon");
 
@@ -187,11 +187,11 @@ function displayMonthTasks(){
             let checkbox = document.createElement("img");
 
             if (temp.completed){
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.src = "Icons/checkbox-marked-circle.svg";
                 checkbox.classList.add("checked");
             }
             else{
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.src = "Icons/checkbox-blank-circle-outline.svg";
                 checkbox.classList.add("unchecked");
             }
             currTaskLeft.appendChild(checkbox);
@@ -252,10 +252,10 @@ function displayTodayTasks(){
 
             let currPriority = document.createElement("img");
             if (currentPriority){
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+                currPriority.src = "Icons/star.svg";
             }
             else{
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+                currPriority.src = "Icons/star-outline.svg";
             }
             currPriority.classList.add("icon");
 
@@ -264,11 +264,11 @@ function displayTodayTasks(){
             let checkbox = document.createElement("img");
 
             if (temp.completed){
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.src = "Icons/checkbox-marked-circle.svg";
                 checkbox.classList.add("checked");
             }
             else{
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.src = "Icons/checkbox-blank-circle-outline.svg";
                 checkbox.classList.add("unchecked");
             }
             currTaskLeft.appendChild(checkbox);
@@ -326,10 +326,10 @@ function displayImportantTasks(){
 
             let currPriority = document.createElement("img");
             if (currentPriority){
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+                currPriority.src = "Icons/star.svg";
             }
             else{
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+                currPriority.src = "Icons/star-outline.svg";
             }
             currPriority.classList.add("icon");
 
@@ -338,11 +338,11 @@ function displayImportantTasks(){
             let checkbox = document.createElement("img");
 
             if (temp.completed){
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.src = "Icons/checkbox-marked-circle.svg";
                 checkbox.classList.add("checked");
             }
             else{
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.src = "Icons/checkbox-blank-circle-outline.svg";
                 checkbox.classList.add("unchecked");
             }
             currTaskLeft.appendChild(checkbox);
@@ -398,10 +398,10 @@ function displayTasks(lisht){
 
         let currPriority = document.createElement("img");
         if (currentPriority){
-            currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+            currPriority.src = "Icons/star.svg";
         }
         else{
-            currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+            currPriority.src = "Icons/star-outline.svg";
         }
         currPriority.classList.add("icon");
 
@@ -410,11 +410,11 @@ function displayTasks(lisht){
         let checkbox = document.createElement("img");
 
         if (temp.completed){
-            checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+            checkbox.src = "Icons/checkbox-marked-circle.svg";
             checkbox.classList.add("checked");
         }
         else{
-            checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+            checkbox.src = "Icons/checkbox-blank-circle-outline.svg";
             checkbox.classList.add("unchecked");
         }
         currTaskLeft.appendChild(checkbox);
@@ -467,10 +467,10 @@ function displayAllTasks(){
 
             let currPriority = document.createElement("img");
             if (currentPriority){
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+                currPriority.src = "Icons/star.svg";
             }
             else{
-                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+                currPriority.src = "Icons/star-outline.svg";
             }
             currPriority.classList.add("icon");
 
@@ -479,11 +479,11 @@ function displayAllTasks(){
             let checkbox = document.createElement("img");
 
             if (temp.completed){
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.src = "Icons/checkbox-marked-circle.svg";
                 checkbox.classList.add("checked");
             }
             else{
-                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.src = "Icons/checkbox-blank-circle-outline.svg";
                 checkbox.classList.add("unchecked");
             }
             currTaskLeft.appendChild(checkbox);
