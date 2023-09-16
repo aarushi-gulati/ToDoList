@@ -1,3 +1,15 @@
+
+let allProjects = [];
+
+let patta = document.querySelector(".patta");
+patta.textContent = "All Tasks";
+
+let currentProject = "None";
+
+let container = document.querySelector(".menu");
+
+let taskList = document.querySelector(".task-list");
+
 function uniqueID() {
     return Math.floor(Math.random() * Date.now());
 }
@@ -16,20 +28,18 @@ function project(title){
     this.tasks = [];
 }
 
-let allProjects = [];
-
-let patta = document.querySelector(".patta");
-patta.textContent = "All Tasks";
-
-let currentProject = "None";
-
 function displayProjects(){
     let arrLen = allProjects.length;
     let list = document.querySelector(".project-items");
     list.textContent = " ";
     for (const project in allProjects){
         let newItem = document.createElement("div");
+        let deleteButton = document.createElement("img");
         newItem.textContent = project;
+        deleteButton.src = "/home/aarushi/Coding/ToDoList/Icons/delete.svg";
+        deleteButton.classList.add("del");
+        deleteButton.id = project;
+        newItem.appendChild(deleteButton);
         newItem.classList.add("item");
         newItem.classList.add("project")
         newItem.id = project;
@@ -52,44 +62,50 @@ function onSubmit(){
     displayProjects();
 }
 
-let container = document.querySelector(".menu");
-
-let taskList = document.querySelector(".task-list");
-
 function completeTask(e){
-    if (e.target.className === "checked"){
-        e.target.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
-        e.target.className = "unchecked";
-        for (const prozect in allProjects){
-            let presentTasks = allProjects[prozect];
-            for (const presentTask in presentTasks){
-                let x = presentTasks[presentTask];
-                let y = x[0];
-                let z = y.UID;
-                console.log(z);
-                if (presentTasks[presentTask][0].UID === e.target.id){
-                    console.log(allProjects[prozect][presentTask]);
-                    allProjects[prozect][presentTask].completed = false;
-                }
-            }
-        }
-        console.log("one");
-    }
-    else if (e.target.className === "unchecked"){
+    if (e.target.className === "unchecked"){
         e.target.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
         e.target.className = "checked";
         for (const prozect in allProjects){
-            let presentTasks = allProjects[prozect];
+            let presentTasks = allProjects[prozect].tasks;
             for (const presentTask in presentTasks){
-                if (presentTasks[presentTask][0].UID === e.target.id){
-                    console.log(allProjects[prozect][presentTask]);
-                    allProjects[prozect][presentTask].completed = true;
+                if (presentTasks[presentTask].UID == e.target.id){
+                    allProjects[prozect].tasks[presentTask].completed = true;
                 }
             }
         }
-        console.log("two");
+    }
+
+    else if (e.target.className === "checked"){
+        e.target.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+        e.target.className = "unchecked";
+        for (const prozect in allProjects){
+            let presentTasks = allProjects[prozect].tasks;
+            for (const presentTask in presentTasks){
+                if (presentTasks[presentTask].UID == e.target.id){
+                    allProjects[prozect].tasks[presentTask].completed = false;
+                }
+            }
+        }
     }
 }
+
+function deleteProject(e){
+    if (e.target.className === "del"){
+        let deletedProject = e.target.id;
+        for (const abhiProject in allProjects){
+            if (abhiProject === deletedProject){
+                delete allProjects[abhiProject];
+            }
+        }
+        displayProjects();
+        displayAllTasks();
+        patta.textContent = "All Tasks";
+        document.getElementById('add-task').className="hide";
+    }
+}
+
+container.addEventListener('click', deleteProject);
 
 taskList.addEventListener('click', completeTask);
 
@@ -106,6 +122,250 @@ function clickOnProject(e){
 
     if (e.target.id === "All Tasks" || e.target.id === "Important" || e.target.id === "Today" || e.target.id === "This Month"){
         document.getElementById('add-task').className="hide";
+    }
+
+    if (e.target.id === "All Tasks"){
+        displayAllTasks();
+    }
+
+    if (e.target.id === "Important"){
+        displayImportantTasks();
+    }
+
+    if (e.target.id === "Today"){
+        displayTodayTasks();
+    }
+
+    if (e.target.id === "This Month"){
+        displayMonthTasks();
+    }
+}
+
+function displayMonthTasks(){
+    taskList.textContent = " ";
+    for (const currProject in allProjects){
+        lisht = allProjects[currProject];
+        for (const sksk in lisht.tasks){
+            let temp = lisht.tasks[sksk];
+            let currTask = document.createElement("div");
+            // let temp = lisht[currentTask];
+            let currentTitle = temp.taskTitle;
+            let currentDescription = temp.description;
+            let currentDate = temp.date;
+            let currentPriority = temp.priority; 
+
+            let today = new Date();
+            let month = today.getMonth();
+            let taskMon = currentDate.getMonth();
+            if (month !== taskMon){
+                continue;
+            }
+
+            let currTitle = document.createElement("div");
+            currTitle.textContent = `${currentTitle}`;
+            currTitle.classList.add("task-title")
+
+            let currDesc = document.createElement("div");
+            currDesc.textContent = `Task Description: ${currentDescription}`;
+            currDesc.classList.add("task-desc")
+
+            let currDate = document.createElement("div");
+            currDate.textContent = `Due Date: ${currentDate.toLocaleDateString()}`;
+            currDate.classList.add("task-date")
+
+            let currPriority = document.createElement("img");
+            if (currentPriority){
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+            }
+            else{
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+            }
+            currPriority.classList.add("icon");
+
+            let currTaskLeft = document.createElement("div");
+            currTaskLeft.classList.add("task-list");
+            let checkbox = document.createElement("img");
+
+            if (temp.completed){
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.classList.add("checked");
+            }
+            else{
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.classList.add("unchecked");
+            }
+            currTaskLeft.appendChild(checkbox);
+            checkbox.id = temp.UID;
+
+            let currTaskRight = document.createElement("div");
+
+            let currDatePriority = document.createElement("div");
+            currDatePriority.appendChild(currDate);
+            currDatePriority.appendChild(currPriority);
+            currDatePriority.classList.add("task-date-priority");
+
+            currTaskRight.appendChild(currTitle);
+            currTaskRight.appendChild(currDesc);
+            currTaskRight.appendChild(currDatePriority);
+
+            currTask.appendChild(currTaskLeft);
+            currTask.appendChild(currTaskRight);
+
+            currTask.classList.add("task");
+
+            taskList.appendChild(currTask);
+        }
+    }
+}
+
+function displayTodayTasks(){
+    taskList.textContent = " ";
+    for (const currProject in allProjects){
+        lisht = allProjects[currProject];
+        for (const sksk in lisht.tasks){
+            let temp = lisht.tasks[sksk];
+            let currTask = document.createElement("div");
+            // let temp = lisht[currentTask];
+            let currentTitle = temp.taskTitle;
+            let currentDescription = temp.description;
+            let currentDate = temp.date;
+            let currentPriority = temp.priority; 
+
+            let today = new Date();
+            let day = today.getDate();
+            let taskDay = currentDate.getDate();
+            if (taskDay !== day){
+                continue;
+            }
+
+            let currTitle = document.createElement("div");
+            currTitle.textContent = `${currentTitle}`;
+            currTitle.classList.add("task-title")
+
+            let currDesc = document.createElement("div");
+            currDesc.textContent = `Task Description: ${currentDescription}`;
+            currDesc.classList.add("task-desc")
+
+            let currDate = document.createElement("div");
+            currDate.textContent = `Due Date: ${currentDate.toLocaleDateString()}`;
+            currDate.classList.add("task-date")
+
+            let currPriority = document.createElement("img");
+            if (currentPriority){
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+            }
+            else{
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+            }
+            currPriority.classList.add("icon");
+
+            let currTaskLeft = document.createElement("div");
+            currTaskLeft.classList.add("task-list");
+            let checkbox = document.createElement("img");
+
+            if (temp.completed){
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.classList.add("checked");
+            }
+            else{
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.classList.add("unchecked");
+            }
+            currTaskLeft.appendChild(checkbox);
+            checkbox.id = temp.UID;
+
+            let currTaskRight = document.createElement("div");
+
+            let currDatePriority = document.createElement("div");
+            currDatePriority.appendChild(currDate);
+            currDatePriority.appendChild(currPriority);
+            currDatePriority.classList.add("task-date-priority");
+
+            currTaskRight.appendChild(currTitle);
+            currTaskRight.appendChild(currDesc);
+            currTaskRight.appendChild(currDatePriority);
+
+            currTask.appendChild(currTaskLeft);
+            currTask.appendChild(currTaskRight);
+
+            currTask.classList.add("task");
+
+            taskList.appendChild(currTask);
+        }
+    }
+}
+
+function displayImportantTasks(){
+    taskList.textContent = " ";
+    for (const currProject in allProjects){
+        lisht = allProjects[currProject];
+        for (const sksk in lisht.tasks){
+            let temp = lisht.tasks[sksk];
+            let currTask = document.createElement("div");
+            // let temp = lisht[currentTask];
+            let currentTitle = temp.taskTitle;
+            let currentDescription = temp.description;
+            let currentDate = temp.date;
+            let currentPriority = temp.priority; 
+
+            if (!currentPriority){
+                continue;
+            }
+
+            let currTitle = document.createElement("div");
+            currTitle.textContent = `${currentTitle}`;
+            currTitle.classList.add("task-title")
+
+            let currDesc = document.createElement("div");
+            currDesc.textContent = `Task Description: ${currentDescription}`;
+            currDesc.classList.add("task-desc")
+
+            let currDate = document.createElement("div");
+            currDate.textContent = `Due Date: ${currentDate.toLocaleDateString()}`;
+            currDate.classList.add("task-date")
+
+            let currPriority = document.createElement("img");
+            if (currentPriority){
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+            }
+            else{
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+            }
+            currPriority.classList.add("icon");
+
+            let currTaskLeft = document.createElement("div");
+            currTaskLeft.classList.add("task-list");
+            let checkbox = document.createElement("img");
+
+            if (temp.completed){
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.classList.add("checked");
+            }
+            else{
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.classList.add("unchecked");
+            }
+            currTaskLeft.appendChild(checkbox);
+            checkbox.id = temp.UID;
+
+            let currTaskRight = document.createElement("div");
+
+            let currDatePriority = document.createElement("div");
+            currDatePriority.appendChild(currDate);
+            currDatePriority.appendChild(currPriority);
+            currDatePriority.classList.add("task-date-priority");
+
+            currTaskRight.appendChild(currTitle);
+            currTaskRight.appendChild(currDesc);
+            currTaskRight.appendChild(currDatePriority);
+
+            currTask.appendChild(currTaskLeft);
+            currTask.appendChild(currTaskRight);
+
+            currTask.classList.add("task");
+
+            taskList.appendChild(currTask);
+        }
     }
 }
 
@@ -125,7 +385,7 @@ function displayTasks(lisht){
         let currentPriority = temp.priority; 
 
         let currTitle = document.createElement("div");
-        currTitle.textContent = `Task Title: ${currentTitle}`;
+        currTitle.textContent = `${currentTitle}`;
         currTitle.classList.add("task-title")
 
         let currDesc = document.createElement("div");
@@ -180,7 +440,75 @@ function displayTasks(lisht){
     }
 }
 
+function displayAllTasks(){
+    taskList.textContent = " ";
+    for (const currProject in allProjects){
+        lisht = allProjects[currProject];
+        for (const sksk in lisht.tasks){
+            let temp = lisht.tasks[sksk];
+            let currTask = document.createElement("div");
+            // let temp = lisht[currentTask];
+            let currentTitle = temp.taskTitle;
+            let currentDescription = temp.description;
+            let currentDate = temp.date;
+            let currentPriority = temp.priority; 
 
+            let currTitle = document.createElement("div");
+            currTitle.textContent = `${currentTitle}`;
+            currTitle.classList.add("task-title")
+
+            let currDesc = document.createElement("div");
+            currDesc.textContent = `Task Description: ${currentDescription}`;
+            currDesc.classList.add("task-desc")
+
+            let currDate = document.createElement("div");
+            currDate.textContent = `Due Date: ${currentDate.toLocaleDateString()}`;
+            currDate.classList.add("task-date")
+
+            let currPriority = document.createElement("img");
+            if (currentPriority){
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star.svg";
+            }
+            else{
+                currPriority.src = "/home/aarushi/Coding/ToDoList/Icons/star-outline.svg";
+            }
+            currPriority.classList.add("icon");
+
+            let currTaskLeft = document.createElement("div");
+            currTaskLeft.classList.add("task-list");
+            let checkbox = document.createElement("img");
+
+            if (temp.completed){
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-marked-circle.svg";
+                checkbox.classList.add("checked");
+            }
+            else{
+                checkbox.src = "/home/aarushi/Coding/ToDoList/Icons/checkbox-blank-circle-outline.svg";
+                checkbox.classList.add("unchecked");
+            }
+            currTaskLeft.appendChild(checkbox);
+            checkbox.id = temp.UID;
+
+            let currTaskRight = document.createElement("div");
+
+            let currDatePriority = document.createElement("div");
+            currDatePriority.appendChild(currDate);
+            currDatePriority.appendChild(currPriority);
+            currDatePriority.classList.add("task-date-priority");
+
+            currTaskRight.appendChild(currTitle);
+            currTaskRight.appendChild(currDesc);
+            currTaskRight.appendChild(currDatePriority);
+
+            currTask.appendChild(currTaskLeft);
+            currTask.appendChild(currTaskRight);
+
+            currTask.classList.add("task");
+
+            taskList.appendChild(currTask);
+        }
+    }
+}
 
 container.addEventListener('click', clickOnProject);
 
